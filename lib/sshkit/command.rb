@@ -173,7 +173,8 @@ module SSHKit
 
     def in_background(&_block)
       return yield unless options[:run_in_background]
-      sprintf("( nohup %s > /dev/null & )", yield)
+      # run `echo $!` at last to return the pid
+      sprintf("( nohup %s > /dev/null & echo $! )", yield)
     end
 
     def umask(&_block)
